@@ -11,7 +11,7 @@ Parameters:
     Description: IP range that is allowed to invoke the nftapi
   pNetworkId:
     Type: String
-    Default: "n-ethereum-rinkeby"
+    Default: "n-ethereum-goerli"
   pInstanceType:
     Type: String
     Default: "bc.t3.large"
