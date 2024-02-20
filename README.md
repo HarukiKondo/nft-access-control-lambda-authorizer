@@ -178,3 +178,89 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for additional 
 ## License
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
+
+
+### 動かした結果
+
+テンプレートファイルが間違っていないかチェック
+
+```bash
+sam validate --lint
+```
+
+```bash
+C:\git\nft-access-control-lambda-authorizer\serverless\template.yml is a valid SAM Template
+```
+
+ビルド
+
+```bash
+sam build
+```
+
+ビルド記録
+
+```bash
+Building layer 'onchainUtils'
+package.json file not found. Continuing the build without dependencies.
+ Running NodejsNpmBuilder:CopySource
+Building codeuri: C:\git\nft-access-control-lambda-authorizer\serverless\lambdas\nftmint runtime: nodejs14.x metadata: {} architecture: x86_64 functions: nftmint
+ Running NodejsNpmBuilder:NpmPack
+ Running NodejsNpmBuilder:CopyNpmrcAndLockfile
+ Running NodejsNpmBuilder:CopySource
+ Running NodejsNpmBuilder:NpmInstall
+ Running NodejsNpmBuilder:CleanUpNpmrc
+ Running NodejsNpmBuilder:LockfileCleanUp
+Building codeuri: C:\git\nft-access-control-lambda-authorizer\serverless\lambdas\nftDetails runtime: nodejs14.x metadata: {} architecture: x86_64 functions: nftDetails
+ Running NodejsNpmBuilder:NpmPack
+ Running NodejsNpmBuilder:CopyNpmrcAndLockfile
+ Running NodejsNpmBuilder:CopySource
+ Running NodejsNpmBuilder:NpmInstall
+ Running NodejsNpmBuilder:CleanUpNpmrc
+ Running NodejsNpmBuilder:LockfileCleanUp
+Building codeuri: C:\git\nft-access-control-lambda-authorizer\serverless\lambdas\nftdeploy runtime: nodejs14.x metadata: {} architecture: x86_64 functions: nftdeploy
+ Running NodejsNpmBuilder:NpmPack
+ Running NodejsNpmBuilder:CopyNpmrcAndLockfile
+ Running NodejsNpmBuilder:CopySource
+ Running NodejsNpmBuilder:NpmInstall
+ Running NodejsNpmBuilder:CleanUpNpmrc
+ Running NodejsNpmBuilder:LockfileCleanUp
+Building codeuri: C:\git\nft-access-control-lambda-authorizer\serverless\lambdas\nftauth runtime: nodejs14.x metadata: {} architecture: x86_64 functions: nftauth
+ Running NodejsNpmBuilder:NpmPack
+ Running NodejsNpmBuilder:CopyNpmrcAndLockfile
+ Running NodejsNpmBuilder:CopySource
+ Running NodejsNpmBuilder:NpmInstall
+ Running NodejsNpmBuilder:CleanUpNpmrc
+ Running NodejsNpmBuilder:LockfileCleanUp
+Building codeuri: C:\git\nft-access-control-lambda-authorizer\serverless\lambdas\nftMetadata runtime: nodejs14.x metadata: {} architecture: x86_64 functions:
+nftMetadata
+ Running NodejsNpmBuilder:NpmPack
+ Running NodejsNpmBuilder:CopyNpmrcAndLockfile
+ Running NodejsNpmBuilder:CopySource
+ Running NodejsNpmBuilder:NpmInstall
+ Running NodejsNpmBuilder:CleanUpNpmrc
+ Running NodejsNpmBuilder:LockfileCleanUp
+WARNING: No BuildArchitecture specifed in Layer `onchainUtils` Metadata. Defaulting to x86_64.
+WARNING: No BuildArchitecture specifed in Layer `onchainUtils` Metadata. Defaulting to x86_64.
+WARNING: No BuildArchitecture specifed in Layer `onchainUtils` Metadata. Defaulting to x86_64.
+WARNING: No BuildArchitecture specifed in Layer `onchainUtils` Metadata. Defaulting to x86_64.
+WARNING: No BuildArchitecture specifed in Layer `onchainUtils` Metadata. Defaulting to x86_64.
+
+Build Succeeded
+
+Built Artifacts  : .aws-sam\build
+Built Template   : .aws-sam\build\template.yaml
+
+Commands you can use next
+=========================
+[*] Validate SAM template: sam validate
+[*] Invoke Function: sam local invoke
+[*] Test Function in the Cloud: sam sync --stack-name {{stack-name}} --watch
+[*] Deploy: sam deploy --guided
+```
+
+スタックの展開(us-east-2リージョンに展開)
+
+```bash
+sam deploy --guided --capabilities CAPABILITY_NAMED_IAM --region us-east-2
+```

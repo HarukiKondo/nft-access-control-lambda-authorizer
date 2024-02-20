@@ -1,6 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Lambdas, API Gateway Endpoint,Fargate task, SNS topics for NFT processing
+# パラメーターの設定
 Parameters:
   pNftBucketName:
     Type: String
@@ -16,7 +17,9 @@ Parameters:
     Default: "bc.t3.large"
   pAvailabilityZone:
     Type: String
+
 Resources:
+  # ブロックチェーンノード
   EthereumNode:
     Type: "AWS::ManagedBlockchain::Node"
     Properties:
@@ -24,7 +27,7 @@ Resources:
       NodeConfiguration:
         InstanceType: !Ref pInstanceType
         AvailabilityZone: !Ref pAvailabilityZone
-
+  # メタデータ用のバケット
   MetadataBucket:
    Type: AWS::S3::Bucket
    Properties:
@@ -46,7 +49,7 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/apigateway/${nftapi}
       RetentionInDays: 7
-
+  # NFT用のAPI設定
   nftapi:
     Type: AWS::Serverless::Api
     DependsOn: ApiCWLRoleArn
@@ -94,7 +97,7 @@ Resources:
         ManagedPolicyArns:
           - 'arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs'
 
-
+  # NFT発行用Lambda
   nftmint:
     Type: AWS::Serverless::Function
     Properties:
@@ -151,6 +154,7 @@ Resources:
                     - !Join ['', ['arn:aws:s3:::',!Ref MetadataBucket, '/*']]
                     - !Join ['', ['arn:aws:s3:::',!Ref MetadataBucket]]
   
+  # NFTの詳細を確認するスタック
   nftDetails:
     Type: AWS::Serverless::Function
     Properties:
@@ -178,6 +182,7 @@ Resources:
       Layers:
         - !Ref onchainUtils
 
+  # NFTコントラクトをデプロイするスタック
   nftdeploy:
     Type: AWS::Serverless::Function
     Properties:
@@ -207,6 +212,8 @@ Resources:
             Method: POST
       Layers:
         - !Ref onchainUtils
+  
+  # NFT認証用のスタック
   nftauth:
     Type: AWS::Serverless::Function
     Properties:
@@ -230,6 +237,7 @@ Resources:
       Layers:
         - !Ref onchainUtils
 
+  # NFTのメタデータを取得するためのスタック
   nftMetadata: 
     Type: AWS::Serverless::Function
     Properties:
@@ -297,6 +305,7 @@ Resources:
                     - !Join ['', ['arn:aws:s3:::',!Ref MetadataBucket, '/*']]
                     - !Join ['', ['arn:aws:s3:::',!Ref MetadataBucket]]
 
+  # Lambda関数共通で使うモジュールのレイヤーの設定
   onchainUtils:
     Type: AWS::Serverless::LayerVersion
     Properties:

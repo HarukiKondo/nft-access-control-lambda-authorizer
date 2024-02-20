@@ -8,8 +8,19 @@ const {providers, wallets, samples} = require('onchain-utils')
 const bucketName = process.env.bucketName;
 const s3 = new AWS.S3({apiVersion: '2006-03-01'});
 
-
-const putMetadata = async (id, contents, bucket = bucketName, folderPrefix = "metadata") => {
+/**
+ * メタデータを3バケットに格納するメソッド
+ * @param {*} id 
+ * @param {*} contents 
+ * @param {*} bucket 
+ * @param {*} folderPrefix 
+ */
+const putMetadata = async (
+  id, 
+  contents, 
+  bucket = bucketName, 
+  folderPrefix = "metadata"
+) => {
   const fileParams = {  
     Bucket: bucket,
     // ACL: 'public-read',
@@ -21,7 +32,24 @@ const putMetadata = async (id, contents, bucket = bucketName, folderPrefix = "me
 
 }
 
-const mintNFT = async (contractAddress, mintAddress, metadataUrl, gasLimit = 100000, gasPrice = 100000000000, waitForTx=true) => {
+/**
+ * NFTを発行するメソッド
+ * @param {*} contractAddress 
+ * @param {*} mintAddress 
+ * @param {*} metadataUrl 
+ * @param {*} gasLimit 
+ * @param {*} gasPrice 
+ * @param {*} waitForTx 
+ * @returns 
+ */
+const mintNFT = async (
+  contractAddress, 
+  mintAddress, 
+  metadataUrl, 
+  gasLimit = 100000, 
+  gasPrice = 100000000000, 
+  waitForTx=true
+) => {
     const provider = await providers.getProvider()
     const myWallet = await wallets.getAWSWallet(provider)
 
@@ -33,6 +61,7 @@ const mintNFT = async (contractAddress, mintAddress, metadataUrl, gasLimit = 100
 
     try {
       var options = { gasPrice, gasLimit };
+      // call mint method
       const mintResult  = await erc721['safeMint(address,string)'](mintAddress, metadataUrl, options)
         
       console.log("mint result", mintResult)
