@@ -262,5 +262,5 @@ Commands you can use next
 スタックの展開(us-east-2リージョンに展開)
 
 ```bash
-sam deploy --guided --capabilities CAPABILITY_NAMED_IAM --region us-east-2
+sam deploy --guided --capabilities CAPABILITY_NAMED_IAM
 ```
